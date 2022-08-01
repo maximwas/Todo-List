@@ -1,0 +1,36 @@
+.list-item {
+  width: 100%;
+  height: 50px;
+  background: #cecece;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font: 500 16px/16px "Roboto", sans-serif;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .button-group {
+    display: flex;
+    margin-left: 10px;
+
+    .button {
+      width: 40px;
+      height: 30px;
+      margin: 0 5px;
+
+      &:first-child .button__handler {
+        background-color: rgb(14, 139, 211);
+      }
+
+      &:last-child .button__handler {
+        background-color: rgb(230, 45, 45);
+      }
+    }
+  }
+}
