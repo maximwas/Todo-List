@@ -11,12 +11,31 @@
   .add-task {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .button {
       height: 50px;
       padding: 5px;
-    
+
       &__handler {
+        background-color: rgb(14, 139, 211);
+      }
+    }
+  }
+
+  .popup-edit {
+    .popup__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .edit-task-button {
+      height: 50px;
+      padding: 5px;
+
+      .button__handler {
         background-color: rgb(14, 139, 211);
       }
     }

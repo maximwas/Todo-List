@@ -10,7 +10,9 @@ import "./App.scss";
 
 const App = () => {
   const [list, setList] = useState([]);
+  const [searchListTask, setSearchListTask] = useState([]);
   const [task, setTask] = useState("");
+  const [search, setSearch] = useState("");
   const [editTask, setEditTask] = useState({});
   const [openEditPopup, setOpenEditPopup] = useState(false);
 
@@ -55,21 +57,39 @@ const App = () => {
     setList(list.filter((item) => item.id !== id));
   };
 
+  const searchList = (value) => {
+    setSearch(value)
+    setSearchListTask(list.filter((item) => item.text.includes(value)));
+  };
+
   return (
     <div className="App">
       <div className="wrapper">
+        <div className="search">
+          <Input onChange={searchList} type="text" placeholder="Search" name="search" required={true} value={search}></Input>
+        </div>
         <div className="wrapper-list">
-          <ul className="list">
-            {list?.length ? list.map((item, index) => <ListItem editItem={() => editItem(item.id)} removeItem={() => removeItem(item.id)} key={index} item={item}></ListItem>) : <p>No list</p>}
-          </ul>
+          {search ? (
+            <ul className="list">
+              {searchListTask?.length ? (
+                searchListTask.map((item, index) => <ListItem editItem={() => editItem(item.id)} removeItem={() => removeItem(item.id)} key={index} item={item}></ListItem>)
+              ) : (
+                <p>No list</p>
+              )}
+            </ul>
+          ) : (
+            <ul className="list">
+              {list?.length ? list.map((item, index) => <ListItem editItem={() => editItem(item.id)} removeItem={() => removeItem(item.id)} key={index} item={item}></ListItem>) : <p>No list</p>}
+            </ul>
+          )}
         </div>
         <div className="add-task">
           <Input onEnterKeyDown={changeList} onChange={setTask} type="text" placeholder="New Task" name="add-task" required={true} value={task}></Input>
-          <Button onClick={changeList} text="Add Task"></Button>
+          <Button className="add-task-button" onClick={changeList} text="Add Task"></Button>
         </div>
-        <Popup show={openEditPopup} close={setOpenEditPopup}>
+        <Popup show={openEditPopup} close={setOpenEditPopup} className="popup-edit">
           <Input onEnterKeyDown={editTaskHandler} onChange={changeEditTask} type="text" placeholder="Edit Task" name="edit-task" required={true} value={editTask.text}></Input>
-          <Button onClick={editTaskHandler} text="Edit Task"></Button>
+          <Button className="edit-task-button" onClick={editTaskHandler} text="Edit Task"></Button>
         </Popup>
       </div>
     </div>
