@@ -1,9 +1,17 @@
 *,
 ::after,
 ::before {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 ul {
-    padding: 0;
+  padding: 0;
 }

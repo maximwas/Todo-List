@@ -1,7 +1,7 @@
 .list-item {
   width: 100%;
   height: 50px;
-  background: #cecece;
+  background: #ffffff;
   list-style: none;
   display: flex;
   justify-content: space-between;
@@ -10,6 +10,7 @@
   border-radius: 10px;
   font: 500 16px/16px "Roboto", sans-serif;
   margin-bottom: 10px;
+  box-shadow: 0px 0px 0px 2px #a0a0a0, inset 0px 0px 10px 1px #141414, 5px 5px 15px 5px rgb(0 0 0 / 0%);
 
   &:last-child {
     margin-bottom: 0;

@@ -4,91 +4,104 @@ import ListItem from "./components/ListItem";
 import Popup from "./components/Popup";
 
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { setNewTask, setListStore, removeTask, editTask, setSearchList } from "./redux/action/toDoListAction";
 
 import "./App.scss";
 
 const App = () => {
-  const [list, setList] = useState([]);
-  const [searchListTask, setSearchListTask] = useState([]);
+  const { list, edit, searchList } = useSelector((state) => state.listReducer);
+  const dispatch = useDispatch();
   const [task, setTask] = useState("");
   const [search, setSearch] = useState("");
-  const [editTask, setEditTask] = useState({});
   const [openEditPopup, setOpenEditPopup] = useState(false);
 
-  useEffect(() => setList(JSON.parse(localStorage.getItem("toDoList")) || []), []);
+  useEffect(() => {
+    dispatch(setListStore(JSON.parse(localStorage.getItem("toDoList")) || []));
+  }, []);
+
   useEffect(() => {
     if (list.length) localStorage.setItem("toDoList", JSON.stringify(list));
   }, [list]);
 
   const changeList = () => {
     if (task) {
-      const newValue = {
+      const payload = {
         text: task,
         id: uuidv4(),
       };
 
-      setList([...list, newValue]);
+      dispatch(setNewTask(payload));
       setTask("");
     }
   };
 
   const changeEditTask = (value) => {
-    const newValue = {
-      id: editTask.id,
+    const payload = {
+      id: edit.id,
       text: value,
     };
 
-    setEditTask(newValue);
+    dispatch(editTask(payload));
   };
 
   const editTaskHandler = () => {
-    setList(list.map((item) => (item.id === editTask.id ? editTask : item)));
+    const editList = list.map((item) => (item.id === edit.id ? edit : item));
+
+    dispatch(setListStore(editList));
     setOpenEditPopup(false);
-    setEditTask({});
+    dispatch(editTask({}));
   };
 
   const editItem = (id) => {
-    setEditTask(list.find((element) => element.id === id));
+    const findItem = list.find((element) => element.id === id);
+
+    dispatch(editTask(findItem));
     setOpenEditPopup(true);
   };
 
-  const removeItem = (id) => {
-    setList(list.filter((item) => item.id !== id));
+  const searchListChange = (value) => {
+    const findList = list.filter((item) => item.text.includes(value));
+
+    setSearch(value);
+    dispatch(setSearchList(findList));
   };
 
-  const searchList = (value) => {
-    setSearch(value)
-    setSearchListTask(list.filter((item) => item.text.includes(value)));
+  const getList = (list) => {
+    return (
+      <>
+        <ul className="list">
+          {list?.length ? (
+            <TransitionGroup className="todo-list">
+              {list.map((item) => (
+                <CSSTransition key={item.id} timeout={500} classNames="item">
+                  <ListItem editItem={() => editItem(item.id)} removeItem={() => dispatch(removeTask(item.id))} item={item} />
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
+          ) : (
+            <p>No list</p>
+          )}
+        </ul>
+      </>
+    );
   };
 
   return (
     <div className="App">
       <div className="wrapper">
         <div className="search">
-          <Input onChange={searchList} type="text" placeholder="Search" name="search" required={true} value={search}></Input>
+          <Input onChange={searchListChange} type="text" placeholder="Search" name="search" required={true} value={search} />
         </div>
-        <div className="wrapper-list">
-          {search ? (
-            <ul className="list">
-              {searchListTask?.length ? (
-                searchListTask.map((item, index) => <ListItem editItem={() => editItem(item.id)} removeItem={() => removeItem(item.id)} key={index} item={item}></ListItem>)
-              ) : (
-                <p>No list</p>
-              )}
-            </ul>
-          ) : (
-            <ul className="list">
-              {list?.length ? list.map((item, index) => <ListItem editItem={() => editItem(item.id)} removeItem={() => removeItem(item.id)} key={index} item={item}></ListItem>) : <p>No list</p>}
-            </ul>
-          )}
-        </div>
+        <div className="wrapper-list">{search ? getList(searchList) : getList(list)}</div>
         <div className="add-task">
-          <Input onEnterKeyDown={changeList} onChange={setTask} type="text" placeholder="New Task" name="add-task" required={true} value={task}></Input>
+          <Input onEnterKeyDown={changeList} onChange={setTask} type="text" placeholder="New Task" name="add-task" required={true} value={task} />
           <Button className="add-task-button" onClick={changeList} text="Add Task"></Button>
         </div>
         <Popup show={openEditPopup} close={setOpenEditPopup} className="popup-edit">
-          <Input onEnterKeyDown={editTaskHandler} onChange={changeEditTask} type="text" placeholder="Edit Task" name="edit-task" required={true} value={editTask.text}></Input>
+          <Input onEnterKeyDown={editTaskHandler} onChange={changeEditTask} type="text" placeholder="Edit Task" name="edit-task" required={true} value={edit.text} />
           <Button className="edit-task-button" onClick={editTaskHandler} text="Edit Task"></Button>
         </Popup>
       </div>
