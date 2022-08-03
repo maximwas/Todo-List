@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { setNewTask, setListStore, removeTask, editTask, setSearchList, jsonFetch } from "./redux/action/toDoListAction";
+import { setNewTask, setListStore, removeTask, editTask, setSearchList, jsonFetch, getSliceToDoListState } from "./feature/toDoList/toListSlice";
 
 import "./App.scss";
 
 const App = () => {
-  const { list, edit, searchList } = useSelector((state) => state.listReducer);
+  const { list, edit, searchList } = useSelector(getSliceToDoListState);
   const dispatch = useDispatch();
   const [task, setTask] = useState("");
   const [search, setSearch] = useState("");
