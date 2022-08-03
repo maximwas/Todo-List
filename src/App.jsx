@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { setNewTask, setListStore, removeTask, editTask, setSearchList } from "./redux/action/toDoListAction";
+import { setNewTask, setListStore, removeTask, editTask, setSearchList, jsonFetch } from "./redux/action/toDoListAction";
 
 import "./App.scss";
 
@@ -20,6 +20,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setListStore(JSON.parse(localStorage.getItem("toDoList")) || []));
+    dispatch(jsonFetch())
   }, []);
 
   useEffect(() => {
@@ -71,21 +72,19 @@ const App = () => {
 
   const getList = (list) => {
     return (
-      <>
-        <ul className="list">
-          {list?.length ? (
-            <TransitionGroup className="todo-list">
-              {list.map((item) => (
-                <CSSTransition key={item.id} timeout={500} classNames="item">
-                  <ListItem editItem={() => editItem(item.id)} removeItem={() => dispatch(removeTask(item.id))} item={item} />
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-          ) : (
-            <p>No list</p>
-          )}
-        </ul>
-      </>
+      <ul className="list">
+        {list?.length ? (
+          <TransitionGroup className="todo-list">
+            {list.map((item) => (
+              <CSSTransition key={item.id} timeout={500} classNames="item">
+                <ListItem editItem={() => editItem(item.id)} removeItem={() => dispatch(removeTask(item.id))} item={item} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        ) : (
+          <p>No list</p>
+        )}
+      </ul>
     );
   };
 

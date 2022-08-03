@@ -1,4 +1,4 @@
-import { SET_NEW_TASK, SET_LIST_STORE, EDIT_TASK, REMOVE_TASK, SEARCH_LIST } from "../types";
+import { SET_NEW_TASK, SET_LIST_STORE, EDIT_TASK, REMOVE_TASK, SEARCH_LIST, JSON_FETCH } from "../types";
 
 export const setNewTask = (payload) => {
   return {
@@ -33,4 +33,17 @@ export const setSearchList = (payload) => {
     type: SEARCH_LIST,
     payload,
   };
+};
+
+export const jsonFetch = () => {
+  return async (dispatch) => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const result = await response.json();
+    const action = {
+      type: JSON_FETCH,
+      payload: result, 
+    }
+
+    dispatch(action)
+  }
 };
