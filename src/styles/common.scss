@@ -6,12 +6,13 @@
 
 body {
   background-color: #1a1a1a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
 }
 
 ul {
   padding: 0;
+}
+
+#root {
+  width: 100%;
 }

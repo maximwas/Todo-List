@@ -1,15 +1,4 @@
-import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
-
-export const jsonFetch = createAsyncThunk("json/jsonFetch", async () => {
-  try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const result = await response.json();
-
-    return result;
-  } catch (error) {
-    throw error;
-  }
-});
+import { createSlice } from "@reduxjs/toolkit";
 
 const reducers = createSlice({
   name: "toDoList",
@@ -35,11 +24,6 @@ const reducers = createSlice({
     setSearchList: (state, action) => {
       state.searchList = action.payload;
     },
-  },
-  extraReducers: ({ addCase }) => {
-    addCase(jsonFetch.fulfilled, (state, action) => {
-      state.json = action.payload;
-    });
   },
 });
 

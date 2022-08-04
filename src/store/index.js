@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import toListSlice from "../feature/toDoList/toListSlice";
+import postReducer from "../feature/Post/postSlice";
+import toListReducer from "../feature/toDoList/toListSlice";
 
 export default configureStore({
   reducer: {
-    listReducer: toListSlice,
+    listReducer: toListReducer,
+    postsSlice: postReducer
   },
 });

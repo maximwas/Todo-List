@@ -1,0 +1,11 @@
+Model Information:
+* title:	Night Lamb
+* source:	https://sketchfab.com/3d-models/night-lamb-9e45860b8bdc40d3b99b747ba4900739
+* author:	SatiKudasati (https://sketchfab.com/SatiKudasati)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Night Lamb" (https://sketchfab.com/3d-models/night-lamb-9e45860b8bdc40d3b99b747ba4900739) by SatiKudasati (https://sketchfab.com/SatiKudasati) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
