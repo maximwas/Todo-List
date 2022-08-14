@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { NavLink as RouterLink, useLocation } from "react-router-dom";
 import { AppBar, Toolbar } from "@mui/material";
 
 import { SuccessBottomNavigationAction as BottomNavigationAction, SuccessBottomNavigation as BottomNavigation } from "./styles.jsx";
